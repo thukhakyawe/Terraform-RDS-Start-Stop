@@ -24,3 +24,19 @@ tag_value = 'true'
 6.terraform destroy -auto-approve
 
 That it is.
+-------
+
+Please note:
+
+The Terraform configuration for automatically starting and stopping RDS instances may not work as expected for Amazon Aurora MySQL clusters due to differences in how standard RDS instances and Aurora clusters are managed by AWS.
+
+Key Differences:
+Aurora Clusters vs. Instances:
+
+Amazon Aurora is composed of a cluster, which consists of one or more DB instances (reader and writer nodes).
+The rds:start-db-instance and rds:stop-db-instance actions that work with standard RDS instances are not directly applicable to Aurora clusters. Instead, you have to manage the entire cluster rather than individual instances within the cluster.
+Aurora-Specific Actions:
+
+Aurora clusters use different API actions: rds:start-db-cluster and rds:stop-db-cluster. These actions start or stop all instances in the Aurora cluster simultaneously.
+Modifying Your Terraform Configuration:
+To manage Aurora MySQL clusters, you'll need to update the Lambda function to handle clusters instead of individual instances.
